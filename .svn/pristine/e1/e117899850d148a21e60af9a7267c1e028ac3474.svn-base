@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a6df05be-2e4d-4648-98b5-3cb1261f1e6b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/RATES-AnthonyKonivets/src/select.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RATES-AnthonyKonivets/rates.db" beforeDir="false" afterPath="$PROJECT_DIR$/RATES-AnthonyKonivets/rates.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RATES-AnthonyKonivets/src/LoginPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/RATES-AnthonyKonivets/src/LoginPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RATES-AnthonyKonivets/src/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/RATES-AnthonyKonivets/src/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RATES-AnthonyKonivets/LoginPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RATES-AnthonyKonivets/LoginPanel.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1qBUgkrOvnOCf9M1dFBxXv6DZCM" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../jar_files/sqlite-jdbc-3.34.0.jar" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\ICS\koni0028\RATES\RATES-AnthonyKonivets" />
+      <recent name="C:\ICS\koni0028\RATES" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\ICS\koni0028\RATES\RATES-AnthonyKonivets" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.CardLayoutManager">
+    <configuration name="CardLayoutManager" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="CardLayoutManager" />
+      <module name="RATES-AnthonyKonivets" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Login" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Login" />
+      <module name="RATES-AnthonyKonivets" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestingGrounds" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="TestingGrounds" />
+      <module name="RATES-AnthonyKonivets" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="select" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="select" />
+      <module name="RATES-AnthonyKonivets" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test" />
+      <module name="RATES-AnthonyKonivets" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.CardLayoutManager" />
+        <item itemvalue="Application.test" />
+        <item itemvalue="Application.select" />
+        <item itemvalue="Application.TestingGrounds" />
+        <item itemvalue="Application.Login" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\antho\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="C:\ICS\koni0028\RATES" />
+          <option name="myCopyRoot" value="C:\ICS\koni0028\RATES" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="C:\ICS\koni0028\RATES" />
+          <option name="myCopyRoot" value="C:\ICS\koni0028\RATES" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a6df05be-2e4d-4648-98b5-3cb1261f1e6b" name="Default Changelist" comment="" />
+      <created>1616552589968</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1616552589968</updated>
+    </task>
+    <task id="LOCAL-00001" summary="First Commit. Drafting.">
+      <created>1616554767249</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1616554767249</updated>
+    </task>
+    <task id="LOCAL-00002" summary="New Review Panel layout finished.">
+      <created>1617165864370</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1617165864370</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added a dbnavigator for connecting the db.">
+      <created>1617772928780</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1617772928780</updated>
+    </task>
+    <task id="LOCAL-00004" summary="FINALLY, managed to connect to the database through the java swing application within the test class.">
+      <created>1618866106390</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1618866106390</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Can't get the login to read from the database..">
+      <created>1618872629170</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1618872629170</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First Commit. Drafting." />
+    <MESSAGE value="New Review Panel layout finished." />
+    <MESSAGE value="Added a dbnavigator for connecting the db." />
+    <MESSAGE value="FINALLY, managed to connect to the database through the java swing application within the test class." />
+    <MESSAGE value="Can't get the login to read from the database.." />
+    <option name="LAST_COMMIT_MESSAGE" value="Can't get the login to read from the database.." />
+  </component>
+</project>

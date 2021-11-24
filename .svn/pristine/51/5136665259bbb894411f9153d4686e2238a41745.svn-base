@@ -1,0 +1,248 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.sql.*;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+
+public class EditProfilePanel extends JPanel implements ActionListener{
+
+
+    JPanel loginPanel, welcomePanel;
+    JLabel idLabel, usernameLabel, message, fNameLabel, welcomeLabel, lNameLabel, passwordLabel;
+    JTextField idStr;
+    JTextField usernameStr, fNameStr, lNameStr, passwordStr;
+    JButton save;
+
+    //Sql goodies
+    PreparedStatement pst = null;
+    Connection conn = null;
+    Connection c = null;
+
+    private JPanel currentPanel;
+
+    EditProfilePanel(JPanel currentPanel) {
+        this.currentPanel = currentPanel;
+        conn = test.connect();
+
+        //titled border
+        TitledBorder title = BorderFactory.createTitledBorder("RATES");
+        title.setTitleJustification(TitledBorder.CENTER);
+        setBorder(title);
+
+        //editable items
+        idLabel = new JLabel();
+        idLabel.setText("Id:");
+        idStr = new JTextField();
+
+        usernameLabel = new JLabel();
+        usernameLabel.setText("Username:");
+        usernameStr = new JTextField();
+
+        fNameLabel = new JLabel();
+        fNameLabel.setText("First Name:");
+        fNameStr = new JTextField();
+
+        lNameLabel = new JLabel();
+        lNameLabel.setText("Last Name:");
+        lNameStr = new JTextField();
+
+        passwordLabel = new JLabel();
+        passwordLabel.setText("Password:");
+        passwordStr = new JTextField();
+
+
+        //Submit
+        save = new JButton("Save");
+
+        //Welcome Panel
+        welcomePanel = new JPanel(new BorderLayout());
+        welcomeLabel = new JLabel();
+        welcomeLabel.setText("Welcome to RATES!");
+        welcomePanel.add(Box.createRigidArea(new Dimension(0,75)));
+        welcomePanel.add(welcomeLabel);
+
+        //Login Panel
+        loginPanel = new JPanel(new GridLayout(9, 1));
+        loginPanel.add(Box.createRigidArea(new Dimension(0,25)));
+        loginPanel.add(Box.createRigidArea(new Dimension(0,25)));
+        loginPanel.add(idLabel);
+        loginPanel.add(idStr);
+        loginPanel.add(usernameLabel);
+        loginPanel.add(usernameStr);
+
+        loginPanel.add(fNameLabel);
+        loginPanel.add(fNameStr);
+        loginPanel.add(lNameLabel);
+        loginPanel.add(lNameStr);
+        loginPanel.add(passwordLabel);
+        loginPanel.add(passwordStr);
+
+
+
+        message = new JLabel();
+        loginPanel.add(message);
+        loginPanel.add(save);
+
+        // Adding the listeners to components..
+        save.addActionListener(this::actionPerformed);
+        add(loginPanel, BorderLayout.CENTER);
+        //add(welcomePanel, BorderLayout.NORTH);
+
+        loginPanel.setPreferredSize(new Dimension(300, 300));
+        //setVisible(true);
+
+    }
+
+
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+
+        JButton source = (JButton) ae.getSource();
+
+        try {
+            c = DriverManager.getConnection("jdbc:sqlite:C://ICS//koni0028//RATES//RATES-AnthonyKonivets//rates3.db");
+            String sql = "SELECT * FROM User WHERE userNo = ?";
+            pst = c.prepareStatement(sql);
+            pst.setString(1, LoginPanel.loggedUser);
+            ResultSet rs = pst.executeQuery();
+            System.out.println("after prep statement");
+
+            while(rs.next()){
+
+                idStr.setText(rs.getString("userNo"));
+                usernameStr.setText(rs.getString("userName"));
+                fNameStr.setText(rs.getString("firstName"));
+                lNameStr.setText(rs.getString("lastName"));
+                passwordStr.setText(rs.getString("password"));
+
+
+                System.out.println("reached 1");
+            }
+            pst.close();
+
+        } catch (Exception b){
+            JOptionPane.showMessageDialog(null, b);
+        }
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*JLabel displayLabel;
+    JPanel keyPanel;
+    JPanel clearPanel;
+
+
+    public LoginPanel(){
+        // Define the layout
+        setLayout(new BorderLayout());
+        // Define the label to display the numbers
+        displayLabel = new JLabel("This is the first page");
+        displayLabel.setBackground(Color.WHITE);
+        displayLabel.setBorder(BorderFactory.createBevelBorder(1));
+
+        add(displayLabel, BorderLayout.NORTH);
+
+
+        // Create a panel to contain the keys
+        keyPanel = new JPanel();
+        keyPanel.setLayout(new GridLayout(4,3));
+        keyPanel.setBorder(BorderFactory.createLineBorder(Color.black, 4));
+
+        // Define the individual buttons on the keypad and add them to the keys panel
+        JButton button;
+
+        // Add the key panel to the PhonePanel
+        add(keyPanel, BorderLayout.CENTER);
+        keyPanel.setFocusable(true);
+        button = new JButton("1");
+        button.setMnemonic('1');
+        button.addKeyListener(phoneBtnListener);
+        button.addActionListener(new ActListener());
+        keyPanel.add(button);
+
+        // Create the clear button and add to the PhonePanel
+        clearPanel = new JPanel();
+        //clearPanel.setLayout(new GridLayout(1,1));
+
+
+        //Need to change the layout so that the clear button is dynamic
+        add(clearPanel, BorderLayout.SOUTH);
+        JButton clearBtn = new JButton("Clear");
+        clearBtn.setMnemonic('C');
+        clearBtn.setToolTipText("Clear the display");
+        clearPanel.add(clearBtn);
+        clearBtn.addKeyListener(phoneBtnListener);
+        clearBtn.addActionListener(new ActListener());
+
+
+        // Set the size of the PhonePanel to 250x250
+        setPreferredSize(new Dimension(250,250));
+    }
+
+    // Define a listener for the keys
+
+    KeyListener phoneBtnListener = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            System.out.println("Key: " + e.getKeyCode());
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) { }
+
+    };
+    private class ActListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JButton source = (JButton) e.getSource();
+            if (source.getText().equals("Clear")) {
+                //displayLabel.setText(" ");
+                HomePanel homePage = new HomePanel();
+                homePage.setVisible(true);
+
+            } else {
+                displayLabel.setText(displayLabel.getText() + source.getText());
+            }
+        }
+    }*/
+
+
+

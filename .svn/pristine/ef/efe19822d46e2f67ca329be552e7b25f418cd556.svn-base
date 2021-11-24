@@ -1,0 +1,42 @@
+import java.sql.*;
+
+public class select {
+
+    public static void main( String args[] ) {
+
+        Connection c = null;
+        PreparedStatement pst = null;
+        try {
+            //Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:C://ICS//koni0028//RATES//RATES-AnthonyKonivets//rates2.db");
+            c.setAutoCommit(false);
+            System.out.println("Opened database successfully");
+
+            String sql = "select * from User where firstName=?";
+            pst = c.prepareStatement(sql);
+            pst.setString(1, "Anthony");
+
+            ResultSet rs = pst.executeQuery();
+
+
+            while ( rs.next() ) {
+                System.out.println("REACHED");
+                int id = rs.getInt("userNo");
+                String  name = rs.getString("firstName");
+                String  lName = rs.getString("lastName");
+
+                System.out.println( "User No = " + id );
+                System.out.println( "First Name = " + name );
+                System.out.println( "Last name = " + lName );
+                System.out.println();
+            }
+            rs.close();
+            pst.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        System.out.println("Operation done successfully");
+    }
+}

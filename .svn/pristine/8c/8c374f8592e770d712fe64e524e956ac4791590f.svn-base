@@ -1,0 +1,109 @@
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+
+public class HomePanel extends JPanel{
+
+    JButton newReviewBtn, contRevBtn, previousRevBtn, editProfileBtn, logoutBtn;
+
+    private JPanel currentPanel;
+
+
+    public HomePanel(JPanel currentPanel){
+        //navigation for card layout
+        this.currentPanel = currentPanel;
+
+        //layout + titled border
+        setLayout(new BorderLayout());
+        TitledBorder title = BorderFactory.createTitledBorder("RATES");
+        title.setTitleJustification(TitledBorder.CENTER);
+        setBorder(title);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        newReviewBtn = new JButton("New Review");
+        contRevBtn = new JButton("Continue Review");
+        previousRevBtn = new JButton("View Previous Reviews");
+        editProfileBtn = new JButton("Edit Profile");
+        logoutBtn = new JButton("Logout");
+
+        newReviewBtn.setMargin(new Insets(5,34,5,34));
+        contRevBtn.setMargin(new Insets(5,21,5,22));
+        previousRevBtn.setMargin(new Insets(5,2,5,3));
+
+        editProfileBtn.setMargin(new Insets(5,10,5,10));
+        logoutBtn.setMargin(new Insets(5,20,5,20));
+
+        newReviewBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        contRevBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        previousRevBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        editProfileBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        logoutBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        buttonPanel.add(Box.createRigidArea(new Dimension(0,60)));
+        buttonPanel.add(newReviewBtn);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0,25)));
+        buttonPanel.add(contRevBtn);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0,25)));
+        buttonPanel.add(previousRevBtn);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0,80)));
+        buttonPanel.add(editProfileBtn);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0,25)));
+        buttonPanel.add(logoutBtn);
+
+        add(buttonPanel, BorderLayout.CENTER);
+
+        //newReviewBtn.addKeyListener(phoneBtnListener);
+
+        newReviewBtn.addActionListener(new ActListener());
+        logoutBtn.addActionListener(new ActListener());
+        contRevBtn.addActionListener(new ActListener());
+
+        // Set the size of the PhonePanel to 250x250
+        setPreferredSize(new Dimension(250,250));
+    }
+
+
+    KeyListener phoneBtnListener = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            System.out.println("Key: " + e.getKeyCode());
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) { }
+
+    };
+    private class ActListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JButton source = (JButton) e.getSource();
+            CardLayoutManager main = new CardLayoutManager();
+
+            if (source.getText().equals("New Review")) {
+                main.switchPanel(currentPanel, "New Review Page");
+
+            }
+
+            else if (source.getText().equals("Logout")) {
+                main.switchPanel(currentPanel, "Login Page");
+            }
+
+            else if (source.getText().equals("Continue Review")) {
+                main.switchPanel(currentPanel, "Continue Review Page");
+            }
+        }
+    }
+
+
+}
+

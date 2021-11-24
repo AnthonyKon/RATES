@@ -1,0 +1,190 @@
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.sql.*;
+
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
+
+
+public class PreviousReview extends JPanel implements ActionListener{
+
+    private JPanel currentPanel, motherPanel, dropPanel;
+    private JComboBox topic, activity, rating;
+    private JButton submit, save, addFile, cancel;
+    private JLabel writtenReviewLabel, topicLabel, activityLabel, ratingLabel, anonLabel;
+    private JTextArea typeHere;
+    private JCheckBox anonBox;
+
+    private String[] topics = {"Select Topic","Cybersecurity", "Enterprise Security", "Interactive Design"};
+    private String[] activities = {"Select Activity","Lecturer", "Tutorial", "Course Material", "Other"};
+    private String[] ratings = {"1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"};
+
+    private JFileChooser fc;
+    private FileNameExtensionFilter filter;
+
+    //Sql goodies
+    Statement pst = null;
+    Connection c = null;
+
+
+    public PreviousReview(JPanel currentPanel){
+        this.currentPanel = currentPanel;
+
+        //titled border
+        TitledBorder title = BorderFactory.createTitledBorder("RATES");
+        title.setTitleJustification(TitledBorder.CENTER);
+        setBorder(title);
+
+        //labels
+        topicLabel = new JLabel("Previous Reviews: ");
+        activityLabel = new JLabel("Activity: ");
+        ratingLabel =new JLabel("Rating: ");
+
+
+
+        //Grid bag layout
+        motherPanel = new JPanel();
+        motherPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        add(motherPanel);
+
+        //TOPIC DROPDOWN MENU
+        c.fill = GridBagConstraints.HORIZONTAL;
+        //c.anchor = GridBagConstraints.NORTH;
+        c.weightx = 0.5;
+        c.weighty = 0.5;
+        c.gridx = 0; //row 0
+        c.gridy = 0; //column 0
+        c.gridwidth = 3;
+        c.insets = new Insets(5,5,5,5);
+        motherPanel.add(topicLabel, c);
+
+
+        //ACTIVITY DROPDOWN MENU
+        //c.gridx = 0;
+       // c.gridy = 1;
+       // c.gridwidth = 3;
+        //motherPanel.add(activityLabel, c);
+
+
+        //ANON SECTION
+        anonLabel = new JLabel("Reviewed by: ");
+        //anonBox = new JCheckBox("Rate Anonymously: ");
+        //anonBox.setHorizontalTextPosition(JCheckBox.LEADING);
+       // c.gridwidth = 1;
+        //c.gridx = 0;
+        //c.gridy = 2;
+        //motherPanel.add(anonLabel, c);
+
+
+        //TYPE HERE SECTION
+        typeHere = new JTextArea(27, 28);
+        JScrollPane scrollPane = new JScrollPane(typeHere);
+        typeHere.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        typeHere.setLineWrap(true);
+        typeHere.setWrapStyleWord(true);
+        c.gridwidth = 3;
+        c.gridx = 0;
+        c.gridy = 3;
+        //motherPanel.add(typeHere, c);
+        motherPanel.add(scrollPane, c);
+
+
+        //RATING BOXES AND ADD FILE
+        addFile = new JButton("Add File");
+       // c.gridwidth = 1;
+        //c.gridx = 0;
+        //c.gridy = 4;
+       // motherPanel.add(ratingLabel, c);
+
+
+
+        //Bottom buttons
+        submit = new JButton("Submit");
+        submit.addActionListener(this);
+        save = new JButton("Save");
+        save.addActionListener(this);
+        cancel = new JButton("Cancel");
+        cancel.addActionListener(this);
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+
+       /* c.gridwidth = 1;
+        c.gridx = 2;
+        c.gridy = 4;
+        motherPanel.add(addFile, c);
+
+
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 5;
+        motherPanel.add(submit, c)*/;
+
+        c.gridwidth = 1;
+        c.gridx = 1;
+        c.gridy = 5;
+        motherPanel.add(save, c);
+
+        c.gridwidth = 1;
+        c.gridx = 2;
+        c.gridy = 5;
+        motherPanel.add(cancel, c);
+
+
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        JButton source = (JButton) e.getSource();
+
+        if (source.getText().equals("Save"))
+        try {
+            c = DriverManager.getConnection("jdbc:sqlite:C://ICS//koni0028//RATES//RATES-AnthonyKonivets//bloba.db");
+            String sql = "SELECT topic, activity, writtenReview, attachedFile, rating FROM Submission where userNo = 1";
+            pst = c.createStatement();
+            ResultSet rs = pst.executeQuery(sql);
+            System.out.println("after prep statement");
+
+            while(rs.next()){
+
+                typeHere.append("Topic: " + rs.getString("topic") + "\n");
+                typeHere.append("Activity: " + rs.getString("activity") + "\n");
+                typeHere.append("Review: " + rs.getString("writtenReview") + "\n");
+                typeHere.append("Rating: " + rs.getString("rating") + "\n\n");
+                typeHere.append("Attached File:\n\n");
+                typeHere.append(rs.getString("attachedFile"));
+
+                typeHere.append("--------------------------------------------------\n");
+                typeHere.setEditable(false);
+
+                System.out.println("reached 1");
+            }
+
+            pst.close();
+
+        } catch (Exception b){
+            JOptionPane.showMessageDialog(null, b);
+        }
+
+        if (source.getText().equals("Cancel")) {
+            typeHere.setText("");
+            CardLayoutManager main = new CardLayoutManager();
+            main.switchPanel(currentPanel, "Home Page");
+
+        }
+
+        }
+
+        //JComboBox cb = (JComboBox)e.getSource();
+        //String topicChosen = (String) cb.getSelectedItem();
+        //rateLabel.setText(topicChosen);
+    }
+
+

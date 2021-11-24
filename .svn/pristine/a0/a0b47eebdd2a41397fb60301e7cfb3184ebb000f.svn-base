@@ -1,0 +1,308 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
+
+
+public class NewReviewPanel extends JPanel implements ActionListener{
+
+    private JPanel currentPanel, motherPanel, dropPanel;
+    private JComboBox topic, activity, rating;
+    private JButton submit, save, addFile, cancel, theFile;
+    private JLabel rateLabel;
+    private JTextArea typeHere;
+    private JCheckBox anonBox;
+    private JDialog fileView;
+
+    private String[] topics = {"Select Topic","Cybersecurity", "Enterprise Security", "Interactive Design"};
+    private String[] activities = {"Select Activity","Lecturer", "Tutorial", "Course Material", "Other"};
+    private String[] ratings = {"1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"};
+    JTextArea ta = new JTextArea(20,3);
+    private JFileChooser fc;
+    private FileNameExtensionFilter filter;
+
+    //Sql goodies
+    PreparedStatement pst = null;
+    Connection conn = null;
+    Connection c = null;
+
+
+    public NewReviewPanel(JPanel currentPanel){
+        this.currentPanel = currentPanel;
+
+
+        //File Chooser
+        fc = new JFileChooser();
+        filter = new FileNameExtensionFilter("Text Files", "text", "txt", "pdf");
+        fc.setFileFilter(filter);
+
+        //titled border
+        TitledBorder title = BorderFactory.createTitledBorder("RATES");
+        title.setTitleJustification(TitledBorder.CENTER);
+        setBorder(title);
+
+        //combo box
+        topic = new JComboBox(topics);
+        activity = new JComboBox(activities);
+        rating = new JComboBox(ratings);
+
+        topic.setSelectedIndex(0);
+        activity.setSelectedIndex(0);
+        rating.setSelectedIndex(0);
+        //topic.addActionListener(this);
+
+        //Grid bag layout
+        motherPanel = new JPanel();
+        motherPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        add(motherPanel);
+
+        //TOPIC DROPDOWN MENU
+        c.fill = GridBagConstraints.HORIZONTAL;
+        //c.anchor = GridBagConstraints.NORTH;
+        c.weightx = 0.5;
+        c.weighty = 0.5;
+        c.gridx = 0; //row 0
+        c.gridy = 0; //column 0
+        c.gridwidth = 3;
+        c.insets = new Insets(5,5,5,5);
+        motherPanel.add(topic, c);
+
+
+        //ACTIVITY DROPDOWN MENU
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridwidth = 3;
+        motherPanel.add(activity, c);
+
+
+        //ANON SECTION
+        //rateLabel = new JLabel("Rate anonymously:");
+        anonBox = new JCheckBox("Rate Anonymously: ");
+        anonBox.setHorizontalTextPosition(JCheckBox.LEADING);
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 2;
+        motherPanel.add(anonBox, c);
+
+
+        //TYPE HERE SECTION
+        typeHere = new JTextArea(20, 3);
+        JScrollPane scrollPane = new JScrollPane(typeHere);
+        typeHere.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        typeHere.setLineWrap(true);
+        typeHere.setWrapStyleWord(true);
+        c.gridwidth = 3;
+        c.gridx = 0;
+        c.gridy = 3;
+        //motherPanel.add(typeHere, c);
+        motherPanel.add(scrollPane, c);
+
+
+        //RATING BOXES AND ADDFILE
+        //addFile = new JButton("Add File");
+
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 4;
+        motherPanel.add(rating, c);
+
+        //the attached file view button
+
+
+
+        theFile = new JButton("View File");
+        c.gridwidth = 1;
+        c.gridx = 1;
+        c.gridy = 4;
+        motherPanel.add(theFile, c);
+
+
+
+        //Bottom buttons
+        submit = new JButton("Submit");
+        submit.addActionListener(this);
+        save = new JButton("Save");
+        save.addActionListener(this);
+        cancel = new JButton("Cancel");
+        cancel.addActionListener(this);
+        addFile = new JButton("Add File");
+        addFile.addActionListener(this);
+        theFile.addActionListener(this);
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+
+        c.gridwidth = 1;
+        c.gridx = 2;
+        c.gridy = 4;
+        motherPanel.add(addFile, c);
+
+
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 5;
+        motherPanel.add(submit, c);
+
+        c.gridwidth = 1;
+        c.gridx = 1;
+        c.gridy = 5;
+        motherPanel.add(save, c);
+
+        c.gridwidth = 1;
+        c.gridx = 2;
+        c.gridy = 5;
+        motherPanel.add(cancel, c);
+
+
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        JButton source = (JButton) e.getSource();
+
+        if (source.getText().equals("Submit")) {
+            try {
+                c = DriverManager.getConnection("jdbc:sqlite:C://ICS//koni0028//RATES//RATES-AnthonyKonivets//bloba.db");
+                String sql = "INSERT INTO Submission (userNo, topic, activity, writtenReview, rating, attachedFile) VALUES (1,?,?,?,?,?) ";
+                pst = c.prepareStatement(sql);
+                System.out.println("after prep statement");
+
+                pst.setString(1, topic.getSelectedItem().toString());
+                pst.setString(2, activity.getSelectedItem().toString());
+                pst.setString(3, typeHere.getText());
+                pst.setString(4, rating.getSelectedItem().toString());
+                pst.setString(5, ta.getText());
+
+                System.out.println("reached 1");
+
+                pst.executeUpdate();
+                pst.close();
+
+            } catch (Exception b) {
+                JOptionPane.showMessageDialog(null, b);
+            }
+        } else if (source.getText().equals("Save")){
+            try {
+                c = DriverManager.getConnection("jdbc:sqlite:C://ICS//koni0028//RATES//RATES-AnthonyKonivets//bloba.db");
+                String sql = "INSERT INTO Save (userNo, topic, activity, writtenReview, rating, attachedFile) VALUES (1,?,?,?,?.?) ";
+                pst = c.prepareStatement(sql);
+                System.out.println("after prep statement");
+
+                pst.setString(1, topic.getSelectedItem().toString());
+                pst.setString(2, activity.getSelectedItem().toString());
+                pst.setString(3, typeHere.getText());
+                pst.setString(4, rating.getSelectedItem().toString());
+                pst.setString(5, ta.getText());
+
+                System.out.println("reached 1");
+
+                pst.executeUpdate();
+                pst.close();
+
+            } catch (Exception b) {
+                JOptionPane.showMessageDialog(null, b);
+            }
+        }else if (source.getText().equals("Add File")){
+            int returnVal = fc.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION){
+                File file = fc.getSelectedFile();
+                typeHere.append("Opening " + file.getName() + ".\n");
+
+                try {
+                    FileReader fr = new FileReader(file.getAbsoluteFile());
+                    ta.read(fr, null);
+                } catch (Exception exception) {
+                    System.out.println(exception);
+                }
+            }
+            else
+            {
+                typeHere.append("Open command cancelled by user.\n");
+            }
+        } else if(source.getText().equals("View File")){
+            JScrollPane scrollForFileView = new JScrollPane(ta);
+            scrollForFileView.setPreferredSize(new Dimension(300,300));
+            ta.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+            ta.setLineWrap(true);
+            ta.setWrapStyleWord(true);
+            JOptionPane.showMessageDialog(null, scrollForFileView, "Attached File", JOptionPane.PLAIN_MESSAGE, null);
+        } else if(source.getText().equals("Cancel")){
+            int dialogResult = showConfirmDialog(this, "Are you sure you want to cancel?\n" +
+                    "Unsaved changes will be lost.");
+            if (dialogResult == JOptionPane.YES_OPTION){
+                CardLayoutManager main = new CardLayoutManager();
+                main.switchPanel(currentPanel, "Home Page");
+            }
+        }
+
+        //use this code to read and output a file.
+        /*somebutton.addActionListener(new ActionListener() {
+                                  public void actionPerformed(ActionEvent ae) {
+                                      JFileChooser fc = new JFileChooser();
+                                      int result = fc.showOpenDialog(null);
+                                      if (result == JFileChooser.APPROVE_OPTION) {
+                                          File file = fc.getSelectedFile();
+                                          try {
+                                              somelabel.setIcon(new ImageIcon(ImageIO.read(file)));
+                                          } catch (IOException e) {
+                                              e.printStackTrace();
+                                          }
+                                      }
+                                  }
+                              }*/
+
+
+
+      /*  if (source.getText().equals("Submit")){
+            showMessageDialog(this, "Submission Successful!");
+        }
+        if (source.getText().equals("Cancel")){
+            showConfirmDialog(this, "Are you sure you want to cancel?\n" +
+                    "Unsaved changes will be lost.");
+        }*/
+
+
+        /*if (source.getText().equals("Save")){
+            int returnSave = fc.showSaveDialog(this);
+            if (returnSave == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                //typeHere.append("Saving " + file.getName() + ".\n");
+
+                try {
+                    FileWriter fw = new FileWriter(file.getAbsolutePath(), false);
+                    typeHere.write(fw);
+                } catch (Exception exception){
+                    System.out.println(exception);
+                }
+            }
+            else{
+                //typeHere.append("Save command cancelled by user.\n");
+            }
+        }*/
+
+
+
+
+        //JComboBox cb = (JComboBox)e.getSource();
+        //String topicChosen = (String) cb.getSelectedItem();
+        //rateLabel.setText(topicChosen);
+    }
+
+
+
+}

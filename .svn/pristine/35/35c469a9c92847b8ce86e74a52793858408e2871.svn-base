@@ -1,0 +1,138 @@
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+public class NewReviewPanel extends JPanel implements ActionListener{
+
+    private JPanel currentPanel, motherPanel, dropPanel;
+    private JComboBox topic, activity, rating;
+    private JButton submit, save, addFile, cancel;
+    private JLabel rateLabel;
+    private JTextArea typeHere;
+
+    private JCheckBox anonBox;
+
+
+    private String[] topics = {"Cybersecurity", "Enterprise Security", "Interactive Design"};
+    private String[] activities = {"Lecturer", "Tutorial", "Course Material", "Other"};
+    private String[] ratings = {"1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"};
+
+
+    public NewReviewPanel(JPanel currentPanel){
+        this.currentPanel = currentPanel;
+
+        //titled border
+        TitledBorder title = BorderFactory.createTitledBorder("RATES");
+        title.setTitleJustification(TitledBorder.CENTER);
+        setBorder(title);
+
+        //combo box
+        topic = new JComboBox(topics);
+        activity = new JComboBox(activities);
+        rating = new JComboBox(ratings);
+
+        topic.setSelectedIndex(0);
+        activity.setSelectedIndex(0);
+        rating.setSelectedIndex(0);
+        //topic.addActionListener(this);
+
+        //Grid bag layout
+        motherPanel = new JPanel();
+        motherPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        add(motherPanel);
+
+        //TOPIC DROPDOWN MENU
+        c.fill = GridBagConstraints.HORIZONTAL;
+        //c.anchor = GridBagConstraints.NORTH;
+        c.weightx = 0.5;
+        c.weighty = 0.5;
+        c.gridx = 0; //row 0
+        c.gridy = 0; //column 0
+        c.gridwidth = 3;
+        c.insets = new Insets(5,5,5,5);
+        motherPanel.add(topic, c);
+
+
+        //ACTIVITY DROPDOWN MENU
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridwidth = 3;
+        motherPanel.add(activity, c);
+
+
+        //ANON SECTION
+        //rateLabel = new JLabel("Rate anonymously:");
+        anonBox = new JCheckBox("Rate anonymously: ");
+        anonBox.setHorizontalTextPosition(JCheckBox.LEADING);
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 2;
+        motherPanel.add(anonBox, c);
+
+
+        //TYPE HERE SECTION
+        typeHere = new JTextArea(20, 3);
+        JScrollPane scrollPane = new JScrollPane(typeHere);
+        typeHere.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        typeHere.setLineWrap(true);
+        typeHere.setWrapStyleWord(true);
+        c.gridwidth = 3;
+        c.gridx = 0;
+        c.gridy = 3;
+        //motherPanel.add(typeHere, c);
+        motherPanel.add(scrollPane, c);
+
+
+        //RATING BOXES AND ADDFILE
+        addFile = new JButton("Add File");
+
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 4;
+        motherPanel.add(rating, c);
+
+
+
+        //Bottom buttons
+        submit = new JButton("Submit");
+        save = new JButton("Save");
+        cancel = new JButton("Cancel");
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+
+        c.gridwidth = 1;
+        c.gridx = 2;
+        c.gridy = 4;
+        motherPanel.add(addFile, c);
+
+
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 5;
+        motherPanel.add(submit, c);
+
+        c.gridwidth = 1;
+        c.gridx = 1;
+        c.gridy = 5;
+        motherPanel.add(save, c);
+
+        c.gridwidth = 1;
+        c.gridx = 2;
+        c.gridy = 5;
+        motherPanel.add(cancel, c);
+
+
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        JComboBox cb = (JComboBox)e.getSource();
+        //String topicChosen = (String) cb.getSelectedItem();
+        //rateLabel.setText(topicChosen);
+    }
+}
